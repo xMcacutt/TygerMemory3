@@ -174,9 +174,9 @@ struct SaveDataStruct {
 	bool unk353;
 
 	int unk354;
-	int unk358; // 48
-	int unk35c; // 136
-	int unk360; // 8
+	int missionCount; // 48
+	int itemCount;    // 136
+	int shopCount;    // 8
 
 	MissionStruct** missions;
 	ItemStruct** items;

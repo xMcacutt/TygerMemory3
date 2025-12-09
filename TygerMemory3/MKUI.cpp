@@ -10,7 +10,6 @@ UIElementStruct* MKUI::GetMainMenu()
 {
     uintptr_t uiManager = *(uintptr_t*)(GetBaseUI());
     UIElementStruct* mainMenu = *(UIElementStruct**)(uiManager + 0x4FC);
-
     return mainMenu;
 }
 
