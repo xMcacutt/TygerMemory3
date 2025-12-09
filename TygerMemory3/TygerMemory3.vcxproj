@@ -104,6 +104,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)$(ProjectName).dll" "C:\Program Files (x86)\Steam\steamapps\common\TY the Tasmanian Tiger 3\Plugins\Dependencies\$(ProjectName).dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

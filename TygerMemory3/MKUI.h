@@ -6,6 +6,7 @@
 #endif
 #include "core.h"
 #include "framework.h"
+#include <string>
 
 struct UIElementStruct {
 	uintptr_t vtable;
@@ -47,4 +48,5 @@ public:
 	static UIElementStruct* FindElementByName(const char* elementName);
 	static UIElementStruct* FindChildElementByName(UIElementStruct* parent, const char* childname);
 	static std::string GetUITreeString();
+	static UIElementStruct* FindElementByPath(const char* path);
 };

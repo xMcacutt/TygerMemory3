@@ -2,8 +2,7 @@
 
 uintptr_t MKUI::GetBaseUI()
 {
-    uintptr_t address = Core::moduleBase + 0x4c6024;
-    address = *(uintptr_t*)(address + 0x64);
+    uintptr_t address = *(uintptr_t*)(Core::moduleBase + 0x4c6024);
     return address;
 }
 
@@ -35,49 +34,108 @@ UIElementStruct* MKUI::FindElementByName(const char* elementName)
 
 UIElementStruct* MKUI::FindElementRecursive(UIElementStruct* element, const char* name)
 {
-    if (element == nullptr || name == nullptr)
+    if (!element || !name)
         return nullptr;
-
     if (element->TypeName && strcmp(element->TypeName, name) == 0)
         return element;
-
-    UIElementStruct* child = element->firstChildUiElement;
-
-    for (int i = 0; i < element->numChildElements && child != nullptr; ++i)
+    if (element->numChildElements >= 0 && element->numChildElements < 1000)
     {
-        UIElementStruct* found = FindElementRecursive(child, name);
-        if (found)
-            return found;
-        child = child->nextUiElementInList;
+        UIElementStruct* child = element->firstChildUiElement;
+        for (int i = 0; i < element->numChildElements && child; ++i)
+        {
+            UIElementStruct* found = FindElementRecursive(child, name);
+            if (found)
+                return found;
+            child = child->nextUiElementInList;
+        }
     }
-
-    return nullptr;
+    return FindElementRecursive(element->nextUiElementInList, name);
 }
 
 std::string MKUI::GetUITreeString()
 {
     uintptr_t baseUI = GetBaseUI();
-    UIElementStruct* root = reinterpret_cast<UIElementStruct*>(baseUI);
+    if (!baseUI)
+        return "Error: Base UI is null.";
 
-    std::string result;
-    BuildUITreeString(root, result, 0);
-    return result;
+    UIElementStruct* root = reinterpret_cast<UIElementStruct*>(baseUI);
+    if (!root)
+        return "Error: Root element is null.";
+
+    std::string tree;
+    BuildUITreeString(root, tree, 0);
+    return tree;
 }
 
 void MKUI::BuildUITreeString(UIElementStruct* element, std::string& out, int depth)
 {
-    if (!element)
-        return;
-    out.append(std::string(depth * 2, ' '));
-    if (element->TypeName)
-        out.append(element->TypeName);
-    else
-        out.append("<null>");
-    out.append("\n");
-    UIElementStruct* child = element->firstChildUiElement;
-    for (int i = 0; i < element->numChildElements && child != nullptr; ++i)
+    while (element)
     {
-        BuildUITreeString(child, out, depth + 1);
-        child = child->nextUiElementInList;
+        out.append(std::string(depth * 2, ' '));
+        out.append(element->TypeName ? element->TypeName : "<null>");
+        out.append("\n");
+        if (element->numChildElements >= 0 && element->numChildElements < 1000)
+        {
+            UIElementStruct* child = element->firstChildUiElement;
+
+            for (int i = 0; i < element->numChildElements && child; i++)
+            {
+                BuildUITreeString(child, out, depth + 1);
+                child = child->nextUiElementInList;
+            }
+        }
+        element = element->nextUiElementInList;
     }
+}
+
+UIElementStruct* MKUI::FindElementByPath(const char* path)
+{
+    if (!path)
+        return nullptr;
+
+    uintptr_t baseUI = GetBaseUI();
+    UIElementStruct* current = reinterpret_cast<UIElementStruct*>(baseUI);
+    if (!current)
+        return nullptr;
+
+    const char* start = path;
+    const char* end = path;
+
+    while (*end != '\0')
+    {
+        if (*start == '/')
+        {
+            start++;
+            end = start;
+            continue;
+        }
+
+        while (*end != '\0' && *end != '/')
+            end++;
+
+        int len = end - start;
+        if (len <= 0)
+        {
+            if (*end == '/')
+                end++;
+            start = end;
+            continue;
+        }
+
+        char segment[256];
+        if (len >= sizeof(segment))
+            return nullptr;
+
+        memcpy(segment, start, len);
+        segment[len] = '\0';
+
+        current = FindChildElementByName(current, segment);
+        if (!current)
+            return nullptr;
+
+        start = (*end == '/') ? end + 1 : end;
+        end = start;
+    }
+
+    return current;
 }
