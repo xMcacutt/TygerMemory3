@@ -1,7 +1,7 @@
 #pragma once
 #include "core.h"
 
-class GameState
+class TYGERMEM3 GameState
 {
 public:
 	static void ForceMainMenu();
