@@ -10,8 +10,7 @@
 #include "framework.h"
 #include <optional>
 
-class ItemStruct {
-public:
+struct ItemStruct {
 	uintptr_t vftable;
 	int unk4;
 	int unk8;
@@ -63,9 +62,9 @@ enum MissionState {
 	COMPLETE = 8
 };
 
-class MissionStruct {
+struct MissionStruct {
 	uintptr_t vftable;
-	
+
 	MissionStruct** precondMissions;
 	int precondMissionCount;
 	int unkPrecondMissionValue;
@@ -74,7 +73,7 @@ class MissionStruct {
 	int precondItemCount;
 	int unkPrecondItemValue;
 
-	MissionState missionState; 
+	MissionState missionState;
 	int missionId;
 	int titleId;
 	int descId;
@@ -84,14 +83,14 @@ class MissionStruct {
 
 	union {
 		struct {
-			unsigned char rescue           : 1; // 1
-			unsigned char elective         : 1; // 2
-			unsigned char unkFlag1         : 1; // 4
-			unsigned char allowRetry       : 1; // 8
-			unsigned char unkFlag2         : 1; // 16
-			unsigned char unkFlag3         : 1; // 32
+			unsigned char rescue : 1; // 1
+			unsigned char elective : 1; // 2
+			unsigned char unkFlag1 : 1; // 4
+			unsigned char allowRetry : 1; // 8
+			unsigned char unkFlag2 : 1; // 16
+			unsigned char unkFlag3 : 1; // 32
 			unsigned char saveActiveAlways : 1; // 64
-			unsigned char unkFlag4         : 1; // 128
+			unsigned char unkFlag4 : 1; // 128
 		};
 		unsigned char typeFlags;
 	};
@@ -113,12 +112,12 @@ struct SaveDataStruct {
 
 	char padding14[0x6c];
 
-	float tysViewInvertX; 
-	float tysViewInvertY; 
+	float tysViewInvertX;
+	float tysViewInvertY;
 	float tysViewSpeed;
 	int tysViewDirection; // 1 for body 0 for camera
-	float cameraInvertX; 
-	float cameraInvertY; 
+	float cameraInvertX;
+	float cameraInvertY;
 	float cameraSpeed;
 	bool cameraAutoCenter;
 	bool cameraMoveWithJump;
@@ -137,7 +136,7 @@ struct SaveDataStruct {
 	int unkc4;
 	int unkc8;
 	int unkcc;
-	
+
 	int unkd0;
 	int unkd4;
 	int unkd8;
@@ -182,7 +181,7 @@ struct SaveDataStruct {
 	ItemStruct** items;
 	ShopStruct** shops;
 	MissionStruct* targettedMission;
-	int mission1Id; 
+	int mission1Id;
 
 	uintptr_t berriesBitArray;
 	int berriesTotal;
@@ -226,7 +225,6 @@ class TYGERMEM3 SaveData {
 protected:
 	uintptr_t baseAddress;
 	static SaveDataStruct* Data;
-
 public:
 	static SaveDataStruct* GetData();
 };
