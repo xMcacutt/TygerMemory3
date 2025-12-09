@@ -10,3 +10,42 @@ SaveDataStruct* SaveData::GetData() {
     }
     return Data;
 }
+
+ItemStruct* SaveData::FindItemById(int itemId)
+{
+    int index = 0;
+	while (index < SaveData::GetData()->itemCount)
+	{
+		ItemStruct* currentItem = SaveData::GetData()->items[index];
+		if (currentItem && currentItem->itemId == itemId)
+			return currentItem;
+		index++;
+	}
+    return nullptr;
+}
+
+MissionStruct* SaveData::FindMissionById(int missionId)
+{
+	int index = 0;
+	while (index < SaveData::GetData()->itemCount)
+	{
+		MissionStruct* currentMission = SaveData::GetData()->missions[index];
+		if (currentMission && currentMission->missionId == missionId)
+			return currentMission;
+		index++;
+	}
+    return nullptr;
+}
+
+ShopStruct* SaveData::FindShopById(int shopId)
+{
+	int index = 0;
+	while (index < SaveData::GetData()->shopCount)
+	{
+		ShopStruct* currentShop = SaveData::GetData()->shops[index];
+		if (currentShop && currentShop->shopId == shopId)
+			return currentShop;
+		index++;
+	}
+    return nullptr;
+}

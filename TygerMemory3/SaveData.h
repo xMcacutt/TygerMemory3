@@ -227,4 +227,7 @@ protected:
 	static SaveDataStruct* Data;
 public:
 	static SaveDataStruct* GetData();
+	static ItemStruct* FindItemById(int itemId);
+	static MissionStruct* FindMissionById(int missionId);
+	static ShopStruct* FindShopById(int shopId);
 };
