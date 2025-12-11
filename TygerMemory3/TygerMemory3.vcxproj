@@ -105,7 +105,8 @@
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(ProjectName).dll" "C:\Program Files (x86)\Steam\steamapps\common\TY the Tasmanian Tiger 3\Plugins\Dependencies\$(ProjectName).dll"</Command>
+      <Command>copy "$(OutDir)$(ProjectName).dll" "C:\Program Files (x86)\Steam\steamapps\common\TY the Tasmanian Tiger 3\Plugins\Dependencies\$(ProjectName).dll"
+copy "$(OutDir)$(ProjectName).lib" "C:\Users\admin\source\repos\Ty3AP-Client\libs"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

@@ -28,10 +28,12 @@ struct ItemStruct {
 	int numPurchased;
 	int maxNumPurchased;
 
+	int unk40;
+	int unk44;
 	int unk48;
 	int unk4c;
-	int currencyType;
 
+	int currencyType;
 	uintptr_t shopIconNamePtr;
 	long unk58;
 };
@@ -230,4 +232,5 @@ public:
 	static ItemStruct* FindItemById(int itemId);
 	static MissionStruct* FindMissionById(int missionId);
 	static ShopStruct* FindShopById(int shopId);
+	static std::string GetText(int textId);
 };

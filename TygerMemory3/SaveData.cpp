@@ -49,3 +49,18 @@ ShopStruct* SaveData::FindShopById(int shopId)
 	}
     return nullptr;
 }
+
+std::string SaveData::GetText(int textId) {
+	auto funcAddr = Core::moduleBase + 0x313940;
+	uintptr_t result = NULL;
+	__asm {
+		push textId
+		call funcAddr
+		mov result, eax
+		add esp, 4
+	}
+	if (result != NULL) {
+		return std::string(reinterpret_cast<char*>(result));
+	}
+	return "";
+}
