@@ -27,7 +27,7 @@ ItemStruct* SaveData::FindItemById(int itemId)
 MissionStruct* SaveData::FindMissionById(int missionId)
 {
 	int index = 0;
-	while (index < SaveData::GetData()->itemCount)
+	while (index < SaveData::GetData()->missionCount)
 	{
 		MissionStruct* currentMission = SaveData::GetData()->missions[index];
 		if (currentMission && currentMission->missionId == missionId)
@@ -51,16 +51,10 @@ ShopStruct* SaveData::FindShopById(int shopId)
 }
 
 std::string SaveData::GetText(int textId) {
-	auto funcAddr = Core::moduleBase + 0x313940;
-	uintptr_t result = NULL;
-	__asm {
-		push textId
-		call funcAddr
-		mov result, eax
-		add esp, 4
-	}
-	if (result != NULL) {
-		return std::string(reinterpret_cast<char*>(result));
-	}
+	using GetTextFunc = const char* (__cdecl*)(int);
+	GetTextFunc getText = reinterpret_cast<GetTextFunc>(Core::moduleBase + 0x313940);
+	const char* result = getText(textId);
+	if (result != nullptr)
+		return std::string(result);
 	return "";
 }

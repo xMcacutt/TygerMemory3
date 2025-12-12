@@ -28,7 +28,7 @@ struct ItemStruct {
 	int numPurchased;
 	int maxNumPurchased;
 
-	int unk40;
+	int numOwned;
 	int unk44;
 	int unk48;
 	int unk4c;
