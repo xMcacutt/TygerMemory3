@@ -217,7 +217,7 @@ struct SaveDataStruct {
 	uintptr_t unusedBitArray;
 	int unusedTotal;
 	int unusedCollected;
-	char unusedSpent;
+	int unusedSpent;
 	int unusedUnknown;
 	uintptr_t stonesBitArray;
 	int stonesTotal;
