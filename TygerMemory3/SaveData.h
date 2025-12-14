@@ -182,6 +182,10 @@ struct SaveDataStruct {
 	MissionStruct** missions;
 	ItemStruct** items;
 	ShopStruct** shops;
+
+	int unk370;
+	int unk374;
+
 	MissionStruct* targettedMission;
 	int mission1Id;
 
